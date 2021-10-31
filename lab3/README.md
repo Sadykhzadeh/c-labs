@@ -3,17 +3,13 @@
 ## Feedback
 Excellent job using macros :) I love these: 
 
-<code>
+```c
 #define elif else if
-
 #define max(a, b) ((a > b) ? a : b)
-
 #define min(a, b) ((a < b) ? a : b)
-
 #define cout(a) printf("%d ", a)
-
 #define end printf("\n");return 0
-</code>
+```
 
 [have look here as well](https://www.geeksforgeeks.org/taking-string-input-space-c-3-different-methods/)
 
