@@ -1,2 +1,2 @@
-# c-labs
-My laboratory works for "C Programming Language" course
+# My laboratory works for "C Programming Language" course
+
