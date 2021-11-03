@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "node.h"
-#define initNode(xxx) \
-  Node* xxx;          \
-  xxx = (struct Node*)malloc(sizeof(struct Node));
 
 Node* nodeConstructor(int data) {
-  initNode(single);
+  Node* single;
+  single = (struct Node*)malloc(sizeof(struct Node));
   single->data = data;
   single->next = NULL;
   return single;
@@ -33,5 +31,4 @@ void traverse(Node* head) {
 
 void nodeDestructor(Node* head) {
   while (head->next != NULL) *head = (*head->next);
-  head->data = NULL;
 }
