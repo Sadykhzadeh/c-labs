@@ -1,9 +1,8 @@
 #include <math.h>
-#include <cstdio>
 
 // must return decimal representation of binary number
 long binaryToDecimal(long binary) {
-  long ans(0), i(0);
+  long ans = 0, i = 0;
   while (binary) {
     long temp = binary % 10;
     binary /= 10;

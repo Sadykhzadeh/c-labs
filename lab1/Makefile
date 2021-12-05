@@ -1,5 +1,5 @@
 build:
-	g++ main.c my-first-lib.h -o prog
+	gcc main.c -o prog
 	echo "Done! You can test a program via 'make test' or write your own commands! :D"
 clean:
 	rm -f ./prog
