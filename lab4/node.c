@@ -8,7 +8,7 @@ Node* nodeConstructor(int data) {
   single->data = data;
   single->next = NULL;
   return single;
-};
+}
 
 Node* append(Node* head, int newData) {
   Node* temp = head;
@@ -19,7 +19,7 @@ Node* append(Node* head, int newData) {
   temp->next->data = newData;
   temp->next->next = NULL;
   return temp->next;
-};
+}
 
 void traverse(Node* head) {
   while (head != NULL) {
@@ -27,7 +27,7 @@ void traverse(Node* head) {
     head = head->next;
   }
   printf("\n");
-};
+}
 
 void nodeDestructor(Node* head) {
   while (head->next != NULL) *head = (*head->next);

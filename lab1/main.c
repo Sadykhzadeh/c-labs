@@ -15,6 +15,20 @@
 #define GCD 9
 #define LCM 10
 
+// Every branch below reads args[2], and three of them read args[3], so this
+// says how many each command needs. Reading past argNum handed atoi() a null
+// pointer, so `./prog 5` with no value crashed instead of complaining.
+static int needsArgs(int command) {
+  switch (command) {
+    case RANDOM_IN_RANGE:
+    case GCD:
+    case LCM:
+      return 3;
+    default:
+      return 2;
+  }
+}
+
 int main(int argNum, char** args) {
   if (argNum - 1)
     printf("You provided %d arguments\n", argNum - 1);
@@ -23,7 +37,13 @@ int main(int argNum, char** args) {
     return -1;
   }
 
-  switch (atoi(args[1])) {
+  const int command = atoi(args[1]);
+  if (argNum - 1 < needsArgs(command)) {
+    printf("Command %d needs %d arguments\n", command, needsArgs(command));
+    return -1;
+  }
+
+  switch (command) {
     case BINARY_TO_DECIMAL: {
       printf("%ld\n", binaryToDecimal(atoi(args[2])));
       break;
@@ -61,8 +81,14 @@ int main(int argNum, char** args) {
       break;
     }
     case LCM: {
-      printf("%d\n", lcm(atoi(args[2]), atoi(args[3])));
+      // lcm returns long now that it no longer overflows an int.
+      printf("%ld\n", lcm(atoi(args[2]), atoi(args[3])));
       break;
+    }
+    default: {
+      // An unrecognised command used to fall out of the switch and exit 0.
+      printf("Unknown command %d\n", command);
+      return -1;
     }
   }
   return 0;

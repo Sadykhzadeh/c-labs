@@ -19,13 +19,15 @@ void printArr(int *arr, int arrSize) {
   line;
 }
 
-int main(int n, char** arg) {
-    int arr[1000], ln = 1;
-    while(arg[ln]) {
-      arr[ln-1] += atoi(arg[ln]);
-      ++ln;
-    }
-    --ln;
+int main(int argc, char** argv) {
+    int arr[1000], ln = 0;
+    /* `arr[ln-1] += ...` added into memory that was never initialised, so
+       `9 1 21 5 3 7 4` printed `1 5 10 11 25 41 2157468`. argc was ignored -
+       the parameter was even named n and never read - and the loop walked
+       argv until NULL with no bound, so more arguments than arr can hold
+       wrote past the end of it. */
+    const int capacity = (int)(sizeof arr / sizeof *arr);
+    for (int i = 1; i < argc && ln < capacity; i++) arr[ln++] = atoi(argv[i]);
 
     bubbleSort(arr, ln);
     

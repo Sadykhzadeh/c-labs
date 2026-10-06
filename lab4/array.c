@@ -10,7 +10,7 @@ Array* append(Array* arr1, Array* arr2) {
     else ansArray->data[i] = arr2->data[i - arr1->size];
   }
   return ansArray;
-};
+}
 
 Array* merge(Array* arr1, Array* arr2) {
   int i = 0, y = 0;
@@ -41,7 +41,7 @@ Array* merge(Array* arr1, Array* arr2) {
     }
   }
   return ansArray;
-};
+}
 
 Array* arrayConstructor(int size) {
   Array* newArray;
@@ -49,4 +49,4 @@ Array* arrayConstructor(int size) {
   newArray->size = size;
   newArray->data = (int*)calloc(size, sizeof(int*));
   return newArray;
-};
+}

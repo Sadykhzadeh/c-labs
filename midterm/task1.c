@@ -22,26 +22,31 @@ void bubbleSort(float *arr, int arrSize) {
         swap(arr[i], arr[j]);
 }
 
+//function to get the sum of all float elements
+// This was declared inside getReport. Nested functions are a GCC extension
+// that no other compiler accepts.
+static float sumOfBal(float* arr, int sizeOfArr) {
+  float ans = 0;
+  for(int i = 0; i < sizeOfArr; i++) ans += arr[i];
+  return ans;
+}
+
 Report getReport(float* arr, int sizeOfArr) {
   // for easy finding maxBalance and minBalance :hehehe:
   bubbleSort(arr, sizeOfArr);
 
-  //function to get the sum of all float elements
-  float sumOfBal(float* arr, int sizeOfArr) {
-    float ans = 0;
-    for(int i = 0; i < sizeOfArr; i++) ans += arr[i];
-    return ans;
-  }
+  // This used to malloc a Report, return a copy of it and leak the
+  // allocation. The struct is four floats, so it can just live here.
+  Report ansReport;
 
-  Report *ansReport;
-  ansReport = (Report*)malloc(sizeof(Report));
+  // sumOfBal was called twice over the same array.
+  const float sum = sumOfBal(arr, sizeOfArr);
+  ansReport.sumOfBalances = sum;
+  ansReport.averageOfBalances = sizeOfArr ? sum / sizeOfArr : 0.0f;
+  ansReport.maxBalance = arr[sizeOfArr-1];
+  ansReport.minBalance = arr[0];
 
-  ansReport->sumOfBalances = sumOfBal(arr, sizeOfArr);
-  ansReport->averageOfBalances = sumOfBal(arr, sizeOfArr) / sizeOfArr;
-  ansReport->maxBalance = arr[sizeOfArr-1];
-  ansReport->minBalance = arr[0];
-
-  return *ansReport;
+  return ansReport;
 }
 
 void printReport(Report ans) {
@@ -60,7 +65,7 @@ float balances[20] = {432.42, 252.35, 512.6, 73.4, 1.65,
   253, 8885.48, 354, 275, 753,
   734, 23, 635.6, 7346, 64};
 
-int main() {
+int main(void) {
   //passing array to getReport function
   Report ans = getReport(balances, sizeOfBalArr);
 

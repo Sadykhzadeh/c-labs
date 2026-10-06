@@ -1,9 +1,20 @@
-build:
-	gcc main.c -o prog
-	echo "Done! You can test a program via 'make test' or write your own commands! :D"
+CC ?= gcc
+CFLAGS ?= -std=c11 -O2 -Wall -Wextra -Wpedantic
+
+.PHONY: all build clean test
+
+all: prog
+
+build: prog
+
+prog: main.c my-first-lib.h
+	$(CC) $(CFLAGS) main.c -o prog -lm
+	@echo "Done! You can test a program via 'make test' or write your own commands! :D"
+
 clean:
 	rm -f ./prog
-test:
+
+test: prog
 	./prog 1 101
 	./prog 2 3
 	./prog 3 1

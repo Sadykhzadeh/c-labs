@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: every translation unit has to compile without a warning
+        run: |
+          status=0
+          for f in $(find . -name '*.c' | sort); do
+            if gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -fsyntax-only -I lab1 "$f"; then
+              echo "clean: $f"
+            else
+              echo "FAILED: $f"
+              status=1
+            fi
+          done
+          exit $status
+      - name: each lab has to build
+        run: |
+          for dir in lab1 lab2 lab3 lab4 lab7-8 midterm; do
+            echo "== $dir"
+            make -C "$dir"
+          done
+      - name: the caesar cipher has to round-trip, and the sort has to sort
+        run: |
+          test "$(./lab3/caecar | head -1)" = "jgnnq yqtnf"
+          test "$(./lab3/caecar | sed -n 2p)" = "hello world"
+          test "$(./midterm/task2 9 1 21 5 3 7 4 | head -1)" = "1 3 4 5 7 9 21 "
+          test "$(./lab1/prog 5 2 | tail -1)" = "Prime"
+          test "$(./lab1/prog 5 1 | tail -1)" = "Not Prime"
+          test "$(./lab1/prog 10 100000 99999 | tail -1)" = "9999900000"
+          echo "behaviour checks passed"
